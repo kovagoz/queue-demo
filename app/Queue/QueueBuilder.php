@@ -55,11 +55,26 @@ class QueueBuilder
         }
 
         $this->arguments['x-dead-letter-exchange'] = $queue;
+        $this->arguments['x-dead-letter-routing-key'] = $queue;
 
         return $this;
     }
 
     public function getQueue()
+    {
+        $this->createDirectExchange();
+        $this->createQueue();
+        $this->bindQueueToExchange();
+
+        return new Queue($this->channel, $this->name);
+    }
+
+    protected function createDirectExchange()
+    {
+        $this->channel->exchange_declare($this->name, 'direct', false, false, false);
+    }
+
+    protected function createQueue()
     {
         $this->channel->queue_declare(
             $this->name,
@@ -70,7 +85,11 @@ class QueueBuilder
             false,
             new AMQPTable($this->arguments)
         );
+    }
 
-        return new Queue($this->channel, $this->name);
+    protected function bindQueueToExchange()
+    {
+        // Parameters: queue, exchange, routing key.
+        $this->channel->queue_bind($this->name, $this->name, $this->name);
     }
 }

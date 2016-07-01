@@ -25,14 +25,14 @@ class Queue
     public function listen(Closure $callback)
     {
         $callback = function ($message) use ($callback) {
-            call_user_func($callback, new Message($message->body));
+            call_user_func($callback, new Message($message));
         };
 
         $this->channel->basic_consume(
             $this->name,
             '',
             false,
-            $no_ack = true,
+            $no_ack = false,
             false,
             false,
             $callback
