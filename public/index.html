@@ -13,12 +13,26 @@
                 <a class="navbar-brand" href="#">Queue Demo</a>
             </div>
             <div class="navbar-form navbar-right">
-                <button class="btn btn-primary">Push me</button>
+                <button class="btn btn-primary" id="push-btn">Push me</button>
             </div>
         </div>
     </nav>
 
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script>
+        $('#push-btn').click(function (e) {
+            $.ajax({
+                url: '/send_message.php',
+                method: 'POST',
+                timeout: 10000,
+                success: function () {
+                },
+                error: function () {
+                    alert('AJAX failed.');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
