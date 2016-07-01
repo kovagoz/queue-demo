@@ -25,7 +25,6 @@ class Queue
     public function listen(Closure $callback)
     {
         $callback = function ($message) use ($callback) {
-            var_dump($message);
             call_user_func($callback, new Message($message->body));
         };
 
