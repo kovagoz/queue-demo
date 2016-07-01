@@ -1,0 +1,160 @@
+---
+- hosts: all
+  sudo: yes
+
+  tasks:
+
+    #------------------------------------------------------
+    #  System settings
+    #------------------------------------------------------
+
+    - name: set timezone
+      copy: content=Europe/Budapest
+            dest=/etc/timezone
+            owner=root
+            group=root
+            mode=0644
+      notify: update timezone
+
+
+    - name: install some useful cli tools
+      apt: name={{ item }}
+      with_items:
+        - curl
+        - make
+        - vim
+
+    #------------------------------------------------------
+    #  APT
+    #------------------------------------------------------
+
+    - name: install https transport layer
+      apt: name=apt-transport-https state=present
+
+    #------------------------------------------------------
+    #  Nginx
+    #------------------------------------------------------
+
+    - name: install nginx
+      apt: name=nginx-full state=present
+
+    - name: setup nginx
+      copy: src=config/nginx.conf dest=/etc/nginx/nginx.conf
+      notify: reload nginx
+
+    - name: start nginx
+      service: name=nginx state=started enabled=yes
+
+    #------------------------------------------------------
+    #  PHP
+    #------------------------------------------------------
+
+    - name: install php-fpm and cli
+      apt: name={{ item }} state=present
+      with_items:
+        - php5-cli
+        - php5-fpm
+
+    - name: start php-fpm
+      service: name=php5-fpm state=started enabled=yes
+
+    - name: configure php-fpm
+      ini_file: dest=/etc/php5/fpm/php.ini
+                section={{ item.section }}
+                option={{ item.key }}
+                value={{ item.value }}
+      with_items:
+        - { section: Date, key: date.timezone, value: Europe/Budapest }
+      notify: restart php-fpm
+
+    - name: configure php-fpm pool
+      ini_file: dest=/etc/php5/fpm/pool.d/www.conf
+                section={{ item.section }}
+                option={{ item.key }}
+                value={{ item.value }}
+      with_items:
+        - { section: www, key: user, value: vagrant }
+        - { section: www, key: group, value: vagrant }
+      notify: restart php-fpm
+
+    #------------------------------------------------------
+    #  MySQL
+    #------------------------------------------------------
+
+    - name: install mysql requirements
+      apt: name=python-mysqldb state=present
+
+    - name: install mysql
+      apt: name=mysql-server state=present
+
+    - name: start mysql
+      service: name=mysql state=started enabled=yes
+
+    - name: create database
+      mysql_db: name=demo
+                state=present
+                collation=utf8_hungarian_ci
+                encoding=utf8
+
+    - name: create mysql user
+      mysql_user: name=demo
+                  password=almafa
+                  priv=demo.*:ALL
+                  state=present
+
+    #------------------------------------------------------
+    #  RabbitMQ
+    #------------------------------------------------------
+
+    - name: install the rabbitmq server
+      apt: name=rabbitmq-server state=present
+
+    - name: start rabbitmq
+      service: name=rabbitmq-server state=started enabled=yes
+
+    - name: enables the rabbitmq_management plugin
+      rabbitmq_plugin: names=rabbitmq_management state=enabled
+      notify: restart rabbitmq
+
+    - name: add user to server and assign full access control on / vhost.
+      rabbitmq_user: user=admin
+                     password=almafa
+                     tags=administrator
+                     vhost=/
+                     configure_priv=.*
+                     read_priv=.*
+                     write_priv=.*
+                     state=present
+
+    #------------------------------------------------------
+    #  Supervisor
+    #------------------------------------------------------
+
+    - name: install supervisor
+      apt: name=supervisor state=present
+
+    - name: start supervisor
+      service: name=supervisor state=started enabled=yes
+
+    #------------------------------------------------------
+    #  Composer
+    #------------------------------------------------------
+
+    - name: install composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      args:
+        creates: /usr/local/bin/composer
+
+  handlers:
+
+    - name: reload nginx
+      service: name=nginx state=reloaded
+
+    - name: restart php-fpm
+      service: name=php5-fpm state=restarted
+
+    - name: update timezone
+      command: dpkg-reconfigure --frontend noninteractive tzdata
+
+    - name: restart rabbitmq
+      service: name=rabbitmq-server state=restarted
