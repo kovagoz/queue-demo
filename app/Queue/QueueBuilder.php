@@ -11,8 +11,6 @@ class QueueBuilder
 
     protected $durable = false;
 
-    protected $timeout;
-
     protected $arguments = [];
 
     public function __construct(AMQPChannel $channel)
@@ -34,16 +32,16 @@ class QueueBuilder
         return $this;
     }
 
-    public function setTimeout($timeout)
+    public function setTimeout($ms)
     {
-        $this->timeout = $timeout;
+        $this->arguments['x-message-ttl'] = $ms;
 
         return $this;
     }
 
     public function setNoTimeout()
     {
-        $this->timeout = null;
+        unset($this->arguments['x-message-ttl']);
 
         return $this;
     }

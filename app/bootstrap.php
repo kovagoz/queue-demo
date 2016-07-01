@@ -34,5 +34,7 @@ $container->singleton('queue.sickbay', function ($c) {
     return (new QueueBuilder($c->make('queue.channel')))
         ->setName('demo.sickbay')
         ->setDurable()
+        ->setDeadLetterExchange('demo')
+        ->setTimeout(1000)
         ->getQueue();
 });
