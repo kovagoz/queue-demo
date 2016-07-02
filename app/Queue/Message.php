@@ -32,4 +32,32 @@ class Message
             false
         );
     }
+
+    public function isDying()
+    {
+        if (!$this->message->has('application_headers')) {
+            return false;
+        }
+
+        $headers = $this->message->get('application_headers')->getNativeData();
+
+        if (!isset($headers['x-death'])) {
+            return false;
+        }
+
+        foreach (array_reverse($headers['x-death']) as $key => $header) {
+            if ($key === 0) {
+                $queue = $header['queue'];
+                $reject_counter = 0;
+            }
+
+            if ($header['queue'] === $queue) {
+                if (++$reject_counter >= 2) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
