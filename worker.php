@@ -4,7 +4,7 @@ require_once __DIR__ . '/app/bootstrap.php';
 
 use App\Queue\Message;
 
-$container->make('queue')->listen(function (Message $message) {
+$app('queue')->listen(function (Message $message) {
     if (rand(0, 3)) {
         echo 'FAILED', PHP_EOL;
         if ($message->isDying()) {

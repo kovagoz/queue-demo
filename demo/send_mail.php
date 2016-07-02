@@ -9,4 +9,4 @@ $msg->addRecipient('kovago@gmail.com', 'Kovago Zoltan');
 $msg->setSubject('queue test');
 $msg->setBody('hello world!');
 
-$container->make('mail')->send($msg);
+$app('mail')->send($msg);
