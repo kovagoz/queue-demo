@@ -153,6 +153,12 @@
       args:
         creates: /usr/local/bin/composer
 
+    - name: install composer packages
+      command: /usr/local/bin/composer install
+      args:
+        chdir: /vagrant
+        creates: /vagrant/vendor
+
     #------------------------------------------------------
     #  Mailcatcher
     #------------------------------------------------------
