@@ -5,6 +5,11 @@ namespace App\Log;
 use App\Contracts\Log\Driver;
 use Psr\Log\AbstractLogger;
 
+/**
+ * PSR-3 logger implementation.
+ *
+ * @see http://www.php-fig.org/psr/psr-3/
+ */
 class Logger extends AbstractLogger
 {
     /**
