@@ -2,11 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Container;
-use App\Queue\QueueBuilder;
-use App\Contracts\Mail\Transport as MailTransport;
-use App\Mail\Transport\Sendmail;
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use App\Application;
 
 setlocale(LC_ALL, 'hu_HU.UTF-8');
 
@@ -16,33 +12,4 @@ error_reporting(E_ALL);
 
 ini_set('display_errors', 1);
 
-$container = new Container;
-
-$container->singleton('queue.channel', function ($c) {
-    return (new AMQPStreamConnection('localhost', 5672, 'admin', 'almafa'))->channel();
-});
-
-// The primary job queue.
-$container->singleton('queue', function ($c) {
-    return (new QueueBuilder($c->make('queue.channel')))
-        ->setName('demo')
-        ->setDurable()
-        ->setDeadLetterExchange($c->make('queue.sickbay'))
-        ->getQueue();
-});
-
-// Dead Letter Exchange.
-$container->singleton('queue.sickbay', function ($c) {
-    return (new QueueBuilder($c->make('queue.channel')))
-        ->setName('demo.sickbay')
-        ->setDurable()
-        ->setDeadLetterExchange('demo')
-        ->setTimeout(1000)
-        ->getQueue();
-});
-
-$container->singleton(MailTransport::class, function () {
-    return new Sendmail;
-});
-
-$container->alias(MailTransport::class, 'mail');
+$app = (new Application)->boot();
