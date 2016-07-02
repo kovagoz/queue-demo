@@ -4,6 +4,8 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Container;
 use App\Queue\QueueBuilder;
+use App\Contracts\Mail\Transport as MailTransport;
+use App\Mail\Transport\Sendmail;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 setlocale(LC_ALL, 'hu_HU.UTF-8');
@@ -38,3 +40,9 @@ $container->singleton('queue.sickbay', function ($c) {
         ->setTimeout(1000)
         ->getQueue();
 });
+
+$container->singleton(MailTransport::class, function () {
+    return new Sendmail;
+});
+
+$container->alias(MailTransport::class, 'mail');
