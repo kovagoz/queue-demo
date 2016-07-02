@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Application;
+use App\Core\Application;
 
 setlocale(LC_ALL, 'hu_HU.UTF-8');
 
