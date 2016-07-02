@@ -39,7 +39,7 @@
       apt: name=nginx-full state=present
 
     - name: setup nginx
-      copy: src=config/nginx.conf dest=/etc/nginx/nginx.conf
+      copy: src=files/nginx.conf dest=/etc/nginx/nginx.conf
       notify: reload nginx
 
     - name: start nginx
@@ -66,6 +66,14 @@
       with_items:
         - { section: Date, key: date.timezone, value: Europe/Budapest }
       notify: restart php-fpm
+
+    - name: configure php-fpm
+      ini_file: dest=/etc/php5/cli/php.ini
+                section="{{ item.section }}"
+                option="{{ item.key }}"
+                value="{{ item.value }}"
+      with_items:
+        - { section: "mail function", key: sendmail_path, value: "/usr/bin/env catchmail -f alert@ustream.tv" }
 
     - name: configure php-fpm pool
       ini_file: dest=/etc/php5/fpm/pool.d/www.conf
@@ -145,6 +153,28 @@
       args:
         creates: /usr/local/bin/composer
 
+    #------------------------------------------------------
+    #  Mailcatcher
+    #------------------------------------------------------
+
+    - name: install mailcatcher dependencies
+      apt: name={{ item }}
+      with_items:
+        - build-essential
+        - ruby
+        - ruby-dev
+        - libsqlite3-dev
+
+    - name: install the right version of activesupport
+      gem: name=activesupport state=present version="4.2.6" user_install=no
+
+    - name: install mailcatcher
+      gem: name=mailcatcher state=present user_install=no
+
+    - name: start mailcatcher
+      copy: src=supervisor/mailcatcher.conf dest=/etc/supervisor/conf.d/
+      notify: reread supervisor
+
   handlers:
 
     - name: reload nginx
@@ -158,3 +188,6 @@
 
     - name: restart rabbitmq
       service: name=rabbitmq-server state=restarted
+
+    - name: reread supervisor
+      shell: /usr/bin/supervisorctl reread && /usr/bin/supervisorctl update
