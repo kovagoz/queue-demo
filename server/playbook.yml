@@ -54,6 +54,7 @@
       with_items:
         - php5-cli
         - php5-fpm
+        - php5-mysql
 
     - name: start php-fpm
       service: name=php5-fpm state=started enabled=yes
@@ -105,9 +106,9 @@
                 encoding=utf8
 
     - name: create mysql user
-      mysql_user: name=demo
-                  password=almafa
-                  priv=demo.*:ALL
+      mysql_user: name=vagrant
+                  password=
+                  priv=*.*:ALL
                   state=present
 
     #------------------------------------------------------
@@ -189,6 +190,15 @@
     - name: start mailcatcher
       copy: src=supervisor/mailcatcher.conf dest=/etc/supervisor/conf.d/
       notify: reread supervisor
+
+    #------------------------------------------------------
+    #  Adminer (MySQL web admin)
+    #------------------------------------------------------
+
+    - name: download adminer
+      command: curl -s -o /var/www/adminer.php https://www.adminer.org/static/download/4.2.5/adminer-4.2.5-en.php
+      args:
+        creates: /var/www/adminer.php
 
   handlers:
 
