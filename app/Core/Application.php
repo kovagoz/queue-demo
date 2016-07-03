@@ -16,6 +16,7 @@ class Application
         Providers\MailServiceProvider::class,
         Providers\LogServiceProvider::class,
         Providers\EventServiceProvider::class,
+        Providers\DatabaseServiceProvider::class,
     ];
 
     /**
