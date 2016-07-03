@@ -13,6 +13,9 @@ Vagrant.configure(2) do |config|
   # Mailcatcher
   config.vm.network "forwarded_port", guest: 1080, host: 8002
 
+  # Supervisor
+  config.vm.network "forwarded_port", guest: 9001, host: 8003
+
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.memory = "512"
