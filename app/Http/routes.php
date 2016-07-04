@@ -1,7 +1,10 @@
 <?php
 
-$router->get('hello', function () {
-    return 'hello world';
+$router->post('hello', function () {
+    return [
+        'created_at' => time(),
+        'message'    => 'Lorem ipsum dolor sit amet'
+    ];
 });
 
 $router->get('log', function ($request, $app) {
