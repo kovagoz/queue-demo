@@ -24,6 +24,16 @@ abstract class ServiceProvider
     }
 
     /**
+     * Run some code after all of the providers have registered.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        // Bootstrap code here.
+    }
+
+    /**
      * Register services.
      *
      * @return void

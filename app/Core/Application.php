@@ -20,6 +20,7 @@ class Application
         Providers\DatabaseServiceProvider::class,
         Providers\ConfigServiceProvider::class,
         Providers\HttpServiceProvider::class,
+        Providers\DomainServiceProvider::class,
     ];
 
     /**
@@ -46,9 +47,17 @@ class Application
      */
     public function boot()
     {
+        $providers = [];
+
         foreach ($this->providers as $provider_class) {
             $provider = new $provider_class($this->container);
             $provider->register();
+
+            $providers[] = $provider;
+        }
+
+        foreach ($providers as $provider) {
+            $provider->boot();
         }
 
         return $this;
