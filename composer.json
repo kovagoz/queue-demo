@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "kovi/queue-demo",
+    "description": "RabbitMQ demo",
+    "keywords": ["rabbitmq", "demo"],
     "license": "WTFPL",
     "type": "project",
     "require": {
