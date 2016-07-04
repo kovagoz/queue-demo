@@ -4,6 +4,8 @@ namespace App\Domain\Handlers;
 
 use App\Contracts\Queue\Message;
 use App\Contracts\Mail\Transport as Mailer;
+use App\Contracts\Config\Repository as Config;
+use App\Mail\Message\PlainText as Email;
 
 class ErrorHandler extends Handler
 {
@@ -11,9 +13,12 @@ class ErrorHandler extends Handler
 
     protected $maxRetries = 3;
 
-    public function __construct(Mailer $mailer)
+    protected $config;
+
+    public function __construct(Mailer $mailer, Config $config)
     {
         $this->mailer = $mailer;
+        $this->config = $config;
     }
 
     public function setMaxRetries($times)
@@ -23,10 +28,26 @@ class ErrorHandler extends Handler
 
     public function handle(Message $message)
     {
-        if ($message->rejectCounter() >= $this->maxRetries) {
-            $this->mailer->send($mail);
+        if ($this->reachMaxRetries($message)) {
+            $message->done();
+            $this->reportFailure($message);
         }
 
-        return false;
+        $message->reject();
+    }
+
+    protected function reportFailure(Message $message)
+    {
+        $mail = new Email;
+        $mail->addRecipient($this->config['MAIL_TO']);
+        $mail->setSubject($this->config['MAIL_SUBJECT']);
+        $mail->setBody('Job failed with ID: ');
+
+        $this->mailer->send($mail);
+    }
+
+    protected function reachMaxRetries(Message $message)
+    {
+        return $message->rejectCounter() >= $this->maxRetries - 1;
     }
 }

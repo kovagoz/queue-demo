@@ -11,8 +11,10 @@ class DefaultHandler extends Handler
         // Do something...
 
         if ($this->fails()) {
-            return $this->successor->handle($message);
+            return $this->next($message);
         }
+
+        $message->done();
     }
 
     protected function fails()
