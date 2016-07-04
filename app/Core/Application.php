@@ -17,6 +17,7 @@ class Application
         Providers\LogServiceProvider::class,
         Providers\EventServiceProvider::class,
         Providers\DatabaseServiceProvider::class,
+        Providers\ConfigServiceProvider::class,
     ];
 
     /**

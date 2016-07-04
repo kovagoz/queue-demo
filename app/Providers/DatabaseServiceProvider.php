@@ -10,9 +10,15 @@ class DatabaseServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->container->bind(MysqlConfiguration::class, function () {
+        $this->container->bind(MysqlConfiguration::class, function ($c) {
+            $config = $c->make('config');
+
             return (new MysqlConfiguration)
-                ->setDatabase('demo');
+                ->setHost($config['DB_HOST'])
+                ->setPort($config['DB_PORT'])
+                ->setUsername($config['DB_USER'])
+                ->setPassword($config['DB_PASS'])
+                ->setDatabase($config['DB_NAME']);
         });
 
         $this->container->singleton(Connection::class, function ($c) {

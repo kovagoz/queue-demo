@@ -10,13 +10,24 @@ class QueueServiceProvider extends ServiceProvider
     public function register()
     {
         $this->container->singleton('queue.channel', function ($c) {
-            return (new AMQPStreamConnection('localhost', 5672, 'admin', 'almafa'))->channel();
+            $config = $c->make('config');
+
+            $connection = new AMQPStreamConnection(
+                $config['AMQP_HOST'],
+                $config['AMQP_PORT'],
+                $config['AMQP_USER'],
+                $config['AMQP_PASS']
+            );
+
+            return $connection->channel();
         });
 
         // The primary job queue.
         $this->container->singleton('queue', function ($c) {
+            $config = $c->make('config');
+
             return (new QueueBuilder($c->make('queue.channel')))
-                ->setName('demo')
+                ->setName($config['AMQP_QUEUE'])
                 ->setDurable()
                 ->setDeadLetterExchange($c->make('queue.sickbay'))
                 ->getQueue();
@@ -24,10 +35,12 @@ class QueueServiceProvider extends ServiceProvider
 
         // Dead Letter Exchange.
         $this->container->singleton('queue.sickbay', function ($c) {
+            $config = $c->make('config');
+
             return (new QueueBuilder($c->make('queue.channel')))
-                ->setName('demo.sickbay')
+                ->setName("{$config['AMQP_QUEUE']}.sickbay")
                 ->setDurable()
-                ->setDeadLetterExchange('demo')
+                ->setDeadLetterExchange($config['AMQP_QUEUE'])
                 ->setTimeout(1000)
                 ->getQueue();
         });
