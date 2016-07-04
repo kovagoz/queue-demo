@@ -4,27 +4,80 @@
     <meta charset="utf-8">
     <title>Queue Demo</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+        .table tbody tr td { border-top: 0; }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Queue Demo</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="http://localhost:8001/" target="_blank">RabbitMQ</a></li>
-                <li><a href="http://localhost:8002/" target="_blank">Mailcatcher</a></li>
-                <li><a href="http://localhost:8003/" target="_blank">Supervisor</a></li>
-                <li><a href="http://localhost:8004/" target="_blank">MySQL</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Admin tools <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://localhost:8001/" target="_blank">RabbitMQ</a></li>
+                        <li><a href="http://localhost:8002/" target="_blank">Mailcatcher</a></li>
+                        <li><a href="http://localhost:8003/" target="_blank">Supervisor</a></li>
+                        <li><a href="http://localhost:8004/" target="_blank">MySQL</a></li>
+                    </ul>
+                </li>
             </ul>
             <div class="navbar-form navbar-right">
-                <button class="btn btn-primary" id="push-btn">Push me</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="push-btn">Create job</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">+10 jobs</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
 
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <br><br><br>
+
+    <div class="container">
+        <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <td style="width: 12em;">2016-06-03 20:02:13</td>
+                    <td style="width: 6em;"><span class="label label-default">Notice</span></td>
+                    <td>This is a log message.</td>
+                </tr>
+                <tr>
+                    <td>2016-06-03 20:02:13</td>
+                    <td><span class="label label-default">Notice</span></td>
+                    <td>This is a log message.</td>
+                </tr>
+                <tr>
+                    <td>2016-06-03 20:02:13</td>
+                    <td><span class="label label-warning">Warning</span></td>
+                    <td>This is a log message.</td>
+                </tr>
+                <tr>
+                    <td>2016-06-03 20:02:13</td>
+                    <td><span class="label label-danger">Error</span></td>
+                    <td>This is a log message.</td>
+                </tr>
+                <tr>
+                    <td>2016-06-03 20:02:13</td>
+                    <td><span class="label label-warning">Warning</span></td>
+                    <td>This is a log message.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
         $('#push-btn').click(function (e) {
             $.ajax({
