@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Queue;
+namespace App\Queue\Drivers\Amqp;
 
+use App\Contracts\Queue\Message as MessageContract;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class Message
+class Message implements MessageContract
 {
     public $message;
 
@@ -18,13 +19,6 @@ class Message
         return $this->message->body;
     }
 
-    public function done()
-    {
-        $this->message->delivery_info['channel']->basic_ack(
-            $this->message->delivery_info['delivery_tag']
-        );
-    }
-
     public function reject()
     {
         $this->message->delivery_info['channel']->basic_reject(
@@ -33,7 +27,14 @@ class Message
         );
     }
 
-    public function isDying()
+    public function done()
+    {
+        $this->message->delivery_info['channel']->basic_ack(
+            $this->message->delivery_info['delivery_tag']
+        );
+    }
+
+    public function rejectCounter()
     {
         if (!$this->message->has('application_headers')) {
             return false;
@@ -52,12 +53,10 @@ class Message
             }
 
             if ($header['queue'] === $queue) {
-                if (++$reject_counter >= 2) {
-                    return true;
-                }
+                $reject_counter++;
             }
         }
 
-        return false;
+        return $reject_counter;
     }
 }

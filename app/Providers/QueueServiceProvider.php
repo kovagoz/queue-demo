@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Queue\QueueBuilder;
+use App\Queue\Drivers\Amqp\QueueBuilder;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class QueueServiceProvider extends ServiceProvider

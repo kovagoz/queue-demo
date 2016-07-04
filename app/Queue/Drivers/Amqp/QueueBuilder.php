@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Queue;
+namespace App\Queue\Drivers\Amqp;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Wire\AMQPTable;
@@ -54,6 +54,18 @@ class QueueBuilder
 
         $this->arguments['x-dead-letter-exchange'] = $queue;
         $this->arguments['x-dead-letter-routing-key'] = $queue;
+
+        return $this;
+    }
+
+    public function setNoDeadLetterExchange($queue)
+    {
+        if ($queue instanceof Queue) {
+            $queue = $queue->getName();
+        }
+
+        unset($this->arguments['x-dead-letter-exchange']);
+        unset($this->arguments['x-dead-letter-routing-key']);
 
         return $this;
     }
