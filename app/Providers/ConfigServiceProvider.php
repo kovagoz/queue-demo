@@ -11,7 +11,7 @@ class ConfigServiceProvider extends ServiceProvider
     {
         $this->container->singleton(Config::class, function () {
             return new Repository(
-                parse_ini_file(__DIR__ . '/../../config.ini');
+                parse_ini_file(__DIR__ . '/../../config.ini')
             );
         });
 

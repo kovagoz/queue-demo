@@ -62,7 +62,7 @@ class Application
      */
     public function make($abstract)
     {
-        return $this->container->make($service);
+        return $this->container->make($abstract);
     }
 
     /**
