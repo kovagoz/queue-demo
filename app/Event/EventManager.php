@@ -42,6 +42,19 @@ class EventManager implements EventManagerContract
     }
 
     /**
+     * Call an event subscriber.
+     *
+     * @param callable $subscriber
+     * @return self
+     */
+    public function subscribe(callable $subscriber)
+    {
+        call_user_func($subscriber, $this);
+
+        return $this;
+    }
+
+    /**
      * Get listeners to the given event.
      *
      * @param string $event
