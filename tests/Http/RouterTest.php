@@ -35,6 +35,15 @@ class RouterTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Closure::class, $this->router->match($request));
     }
 
+    public function testMatchRouteStartedWithSlash()
+    {
+        $request = m::mock(Request::class);
+        $request->shouldReceive('getPath')->once()->andReturn('/foo');
+        $request->shouldReceive('getMethod')->once()->andReturn('GET');
+
+        $this->assertInstanceOf(Closure::class, $this->router->match($request));
+    }
+
     public function testMatchPostRoute()
     {
         $request = m::mock(Request::class);

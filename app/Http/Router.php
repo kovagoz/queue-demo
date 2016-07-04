@@ -25,6 +25,8 @@ class Router implements RouterContract
      */
     public function get($path, callable $controller)
     {
+        $path = $this->stripSlashes($path);
+
         $this->routes['GET'][$path] = $controller;
 
         return $this;
@@ -39,6 +41,8 @@ class Router implements RouterContract
      */
     public function post($path, callable $controller)
     {
+        $path = $this->stripSlashes($path);
+
         $this->routes['POST'][$path] = $controller;
 
         return $this;
@@ -53,12 +57,17 @@ class Router implements RouterContract
     public function match(RequestContract $request)
     {
         $method = $request->getMethod();
-        $path   = $request->getPath();
+        $path   = $this->stripSlashes($request->getPath());
 
         if (isset($this->routes[$method][$path])) {
             return $this->routes[$method][$path];
         }
 
         throw new PageNotFoundException($request);
+    }
+
+    protected function stripSlashes($path)
+    {
+        return trim($path, '/');
     }
 }
