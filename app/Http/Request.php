@@ -111,8 +111,8 @@ class Request implements RequestContract
     public static function createFromGlobals()
     {
         return new self(
-            $_SERVER['REQUEST_METHOD'],
-            $_SERVER['REQUEST_URI']
+            $_SERVER['REQUEST_URI'],
+            $_SERVER['REQUEST_METHOD']
         );
     }
 }
