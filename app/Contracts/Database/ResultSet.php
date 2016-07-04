@@ -7,4 +7,10 @@ namespace App\Contracts\Database;
  */
 interface ResultSet
 {
+    /**
+     * Convert result set to array.
+     *
+     * @return array
+     */
+    public function toArray();
 }

@@ -32,4 +32,14 @@ class PdoMysqlResultSet implements ResultSet, IteratorAggregate
     {
         return $this->stmt;
     }
+
+    /**
+     * Convert result set to array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->stmt->fetchAll();
+    }
 }
