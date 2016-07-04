@@ -40,9 +40,9 @@ class LogEntry
      */
     public function save(Connection $db)
     {
-        $db->execute('INSERT INTO log (severity, msg) VALUES (:level, :msg)', [
-            ':level' => $this->level,
-            ':msg'   => $this->message
+        $db->execute('INSERT INTO log (`level`, `message`) VALUES (:level, :message)', [
+            ':level'   => $this->level,
+            ':message' => $this->message
         ]);
     }
 }
