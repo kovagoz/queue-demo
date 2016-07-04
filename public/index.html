@@ -30,15 +30,7 @@
                     </li>
                 </ul>
                 <div class="navbar-form navbar-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="push-btn" @click="createJob">Create job</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">+10 jobs</a></li>
-                        </ul>
-                    </div>
+                    <button class="btn btn-primary" @click="createJob">Create job</button>
                 </div>
             </div>
         </nav>
@@ -50,7 +42,11 @@
                 <tbody>
                     <tr v-for="entry in log">
                         <td style="width: 12em;">{{ entry.created_at }}</td>
-                        <td style="width: 6em;"><span class="label label-default">Notice</span></td>
+                        <td style="width: 6em;">
+                            <span class="label label-{{ entry.level | label }}">
+                                {{ entry.level | capitalize }}
+                            </span>
+                        </td>
                         <td>{{ entry.message }}</td>
                     </tr>
                 </tbody>
@@ -62,20 +58,6 @@
     <script src="https://vuejs.org/js/vue.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="assets/app.js"></script>
-    <script>
-        // $('#push-btn').click(function (e) {
-        //     $.ajax({
-        //         url: '/send_message.php',
-        //         method: 'POST',
-        //         timeout: 10000,
-        //         success: function () {
-        //         },
-        //         error: function () {
-        //             alert('AJAX failed.');
-        //         }
-        //     });
-        // });
-    </script>
 
 </body>
 </html>
