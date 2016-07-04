@@ -27,6 +27,6 @@ class DatabaseDriver implements Driver
      */
     public function log($level, $message)
     {
-        (new LogEntry($level, $message))->save($this->db);
+        (new LogEntry($message, $level))->save($this->db);
     }
 }
