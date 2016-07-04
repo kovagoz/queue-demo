@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Core\Container;
+use App\Contracts\Core\Container;
 
 abstract class ServiceProvider
 {

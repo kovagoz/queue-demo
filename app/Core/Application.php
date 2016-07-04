@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Contracts\Core\Container as ContainerContract;
 use App\Providers;
 
 class Application
@@ -21,11 +22,16 @@ class Application
     ];
 
     /**
+     * @var ContainerContract
+     */
+    protected $container;
+
+    /**
      * Create new application instance.
      *
-     * @param Container $container
+     * @param ContainerContract $container
      */
-    public function __construct(Container $container = null)
+    public function __construct(ContainerContract $container = null)
     {
         $this->container = $container ?: new Container;
     }
@@ -46,13 +52,24 @@ class Application
     }
 
     /**
-     * Get a service from the IoC container.
+     * Get an object from the IoC container.
      *
-     * @param string $service
+     * @param string $abstract
      * @return mixed
      */
-    public function __invoke($service)
+    public function make($abstract)
     {
         return $this->container->make($service);
+    }
+
+    /**
+     * Get an object from the IoC container by calling the Application.
+     *
+     * @param string $abstract
+     * @return mixed
+     */
+    public function __invoke($abstract)
+    {
+        return $this->make($abstract);
     }
 }

@@ -2,13 +2,14 @@
 
 namespace App\Core;
 
+use App\Contracts\Core\Container as ContainerContract;
 use Closure;
 use InvalidArgumentException;
 
 /**
  * A simple IoC container.
  */
-class Container
+class Container implements ContainerContract
 {
     /**
      * Registered resolvers.
