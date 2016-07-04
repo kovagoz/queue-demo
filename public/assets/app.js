@@ -20,6 +20,14 @@ var vm = new Vue({
     },
     methods: {
         createJob: function () {
+            $.ajax({
+                url: '/message',
+                method: 'POST',
+                timeout: 2000,
+                error: function () {
+                    alert('AJAX failed.');
+                }
+            });
         },
         fetchLog: function () {
             $.ajax({
