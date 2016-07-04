@@ -3,23 +3,50 @@
 namespace App\Domain;
 
 use App\Contracts\Queue\Queue;
+use App\Contracts\Event\EventManager;
 
 class MessageGenerator
 {
+    /**
+     * @var Queue
+     */
     protected $queue;
 
-    public function __construct(Queue $queue)
+    /**
+     * @var EventManager
+     */
+    protected $events;
+
+    /**
+     * Create new message generator instance.
+     *
+     * @param Queue $queue
+     */
+    public function __construct(Queue $queue, EventManager $events)
     {
-        $this->queue = $queue;
+        $this->queue  = $queue;
+        $this->events = $events;
     }
 
-    public function poke($times = 1)
+    /**
+     * Put a new message to the queue.
+     *
+     * @return void
+     */
+    public function publish()
     {
-        for ($i = 0; $i < $times; $i++) {
-            $this->queue->put($this->createRandomMessage());
-        }
+        $message = $this->createRandomMessage();
+
+        $this->queue->put($message);
+
+        $this->events->fire(new Events\JobCreated($message));
     }
 
+    /**
+     * Create a random message.
+     *
+     * @return integer
+     */
     protected function createRandomMessage()
     {
         return rand(10000, 99999);

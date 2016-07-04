@@ -2,7 +2,7 @@
 
 namespace App\Queue\Drivers\Amqp;
 
-use App\Contracts\Queue\Queue;
+use App\Contracts\Queue\Queue as QueueContract;
 use App\Contracts\Queue\MessageHandler;
 use PhpAmqpLib\Message\AMQPMessage;
 use Closure;
