@@ -98,15 +98,19 @@
     - name: start mysql
       service: name=mysql state=started enabled=yes
 
+    - name: create database
+      mysql_db: name=demo
+                state=present
+                collation=utf8_hungarian_ci
+                encoding=utf8
+
     - name: upload database schema
       copy: src=files/schema.sql dest=/tmp/schema.sql
 
-    - name: create database
+    - name: create database schema
       mysql_db: name=demo
                 state=import
                 target=/tmp/schema.sql
-                collation=utf8_hungarian_ci
-                encoding=utf8
 
     - name: create mysql user
       mysql_user: name=vagrant
