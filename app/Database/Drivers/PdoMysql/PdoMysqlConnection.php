@@ -5,6 +5,7 @@ namespace App\Database\Drivers\PdoMysql;
 use App\Contracts\Database\Connection;
 use App\Database\Platforms\Mysql\MysqlConfiguration as Configuration;
 use PDO;
+use PDOStatement;
 
 class PdoMysqlConnection implements Connection
 {
@@ -39,7 +40,9 @@ class PdoMysqlConnection implements Connection
     {
         $stmt = $this->conn()->prepare($query);
 
-        $stmt->execute($params);
+        $this->bindParameters($stmt, $params);
+
+        $stmt->execute();
 
         return new PdoMysqlResultSet($stmt);
     }
@@ -84,5 +87,50 @@ class PdoMysqlConnection implements Connection
         }
 
         return $options;
+    }
+
+    /**
+     * Bind a query parameter.
+     *
+     * Automatically detects the data type.
+     *
+     * @param PDOStatement $stmt
+     * @param array        $params
+     * @return void
+     */
+    protected function bindParameters(PDOStatement $stmt, array $params)
+    {
+        foreach ($params as $key => $value) {
+            if (is_int($key)) {
+                $key++;
+            }
+
+            $stmt->bindParam($key, $value, $this->getPdoType($value));
+        }
+    }
+
+    /**
+     * Get the corresponding PDO type of a value.
+     *
+     * @param mixed $value
+     * @return integer
+     */
+    protected function getPdoType($value)
+    {
+        if (is_string($value)) {
+            return PDO::PARAM_STR;
+        }
+
+        if (is_int($value)) {
+            return PDO::PARAM_INT;
+        }
+
+        if (is_null($value)) {
+            return PDO::PARAM_NULL;
+        }
+
+        if (is_bool($param)) {
+            return PDO::PARAM_BOOL;
+        }
     }
 }
