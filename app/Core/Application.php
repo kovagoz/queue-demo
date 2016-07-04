@@ -19,6 +19,7 @@ class Application
         Providers\EventServiceProvider::class,
         Providers\DatabaseServiceProvider::class,
         Providers\ConfigServiceProvider::class,
+        Providers\HttpServiceProvider::class,
     ];
 
     /**
@@ -34,6 +35,8 @@ class Application
     public function __construct(ContainerContract $container = null)
     {
         $this->container = $container ?: new Container;
+
+        $this->registerInstance();
     }
 
     /**
@@ -71,5 +74,16 @@ class Application
     public function __invoke($abstract)
     {
         return $this->make($abstract);
+    }
+
+    /**
+     * Register the application itself into the IoC container.
+     *
+     * @return void
+     */
+    protected function registerInstance()
+    {
+        $this->container->instance(self::class, $this);
+        $this->container->alias(self::class, 'app');
     }
 }
