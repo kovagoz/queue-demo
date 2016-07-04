@@ -76,6 +76,11 @@ class PdoMysqlConnection implements Connection
         );
     }
 
+    /**
+     * Get the PDO connection options.
+     *
+     * @return array
+     */
     protected function getConnectionOptions()
     {
         $options = [];
@@ -105,7 +110,7 @@ class PdoMysqlConnection implements Connection
                 $key++;
             }
 
-            $stmt->bindParam($key, $value, $this->getPdoType($value));
+            $stmt->bindValue($key, $value, $this->getPdoType($value));
         }
     }
 
