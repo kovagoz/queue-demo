@@ -2,23 +2,11 @@
 
 namespace App\Domain\Events;
 
-use Psr\Log\LogLevel;
-
 /**
  * Event fired before a new job is put into queue.
  */
 class JobCreating extends JobEvent
 {
-    /**
-     * Get log level.
-     *
-     * @return string
-     */
-    public function getLogLevel()
-    {
-        return LogLevel::NOTICE;
-    }
-
     /**
      * Get log message.
      *
@@ -26,6 +14,6 @@ class JobCreating extends JobEvent
      */
     public function getLogMessage()
     {
-        return "Create new job with ID: {$this->payload}";
+        return "[{$this->payload}] New job has been created";
     }
 }

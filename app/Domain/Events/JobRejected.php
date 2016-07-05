@@ -23,6 +23,6 @@ class JobRejected extends JobEvent
      */
     public function getLogMessage()
     {
-        return "Job [{$this->payload}] has rejected.";
+        return "[{$this->payload}] Rejected";
     }
 }

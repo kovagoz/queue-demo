@@ -7,6 +7,9 @@ Vue.filter('label', function (value) {
         case 'warning':
             return 'warning';
 
+        case 'notice':
+            return 'success';
+
         default:
             return 'default';
     }

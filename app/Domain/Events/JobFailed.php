@@ -23,6 +23,6 @@ class JobFailed extends JobEvent
      */
     public function getLogMessage()
     {
-        return "Job [{$this->payload}] is failed.";
+        return "[{$this->payload}] Failed";
     }
 }
