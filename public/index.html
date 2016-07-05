@@ -17,18 +17,18 @@
                     <a class="navbar-brand" href="#">Queue Demo</a>
                 </div>
                 <ul class="nav navbar-nav">
+                    <li><a href="http://localhost:8002/" target="_blank">Mailbox</a></li>
+                    <li><a href="/doc" target="_blank">API doc</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Admin tools <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="http://localhost:8001/" target="_blank">RabbitMQ</a></li>
-                            <li><a href="http://localhost:8002/" target="_blank">Mailcatcher</a></li>
                             <li><a href="http://localhost:8003/" target="_blank">Supervisor</a></li>
                             <li><a href="http://localhost:8004/" target="_blank">MySQL</a></li>
                         </ul>
                     </li>
-                    <li><a href="/doc">API doc</a></li>
                 </ul>
                 <div class="navbar-form navbar-right">
                     <button class="btn btn-primary" @click="createJob">Create job</button>
