@@ -184,6 +184,15 @@
       notify: reread supervisor
 
     #------------------------------------------------------
+    #  Adminer (MySQL web admin)
+    #------------------------------------------------------
+
+    - name: download adminer
+      command: curl -s -o /var/www/adminer.php https://www.adminer.org/static/download/4.2.5/adminer-4.2.5-en.php
+      args:
+        creates: /var/www/adminer.php
+
+    #------------------------------------------------------
     #  Composer
     #------------------------------------------------------
 
@@ -209,13 +218,12 @@
         creates: /vagrant/public/doc
 
     #------------------------------------------------------
-    #  Adminer (MySQL web admin)
+    #  Start the message processor
     #------------------------------------------------------
 
-    - name: download adminer
-      command: curl -s -o /var/www/adminer.php https://www.adminer.org/static/download/4.2.5/adminer-4.2.5-en.php
-      args:
-        creates: /var/www/adminer.php
+    - name: start the message processor
+      copy: src=supervisor/message_processor.conf dest=/etc/supervisor/conf.d/
+      notify: reread supervisor
 
   handlers:
 
