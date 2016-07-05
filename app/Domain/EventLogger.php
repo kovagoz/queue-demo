@@ -16,11 +16,11 @@ class EventLogger extends Subscriber
      * @var array
      */
     protected $events = [
-        // Events\JobComplete::class,
+        Events\JobComplete::class,
         Events\JobCreated::class,
-        // Events\JobFailed::class,
-        // Events\JobRejected::class,
-        // Events\JobReserved::class,
+        Events\JobFailed::class,
+        Events\JobRejected::class,
+        Events\JobReserved::class,
     ];
 
     /**

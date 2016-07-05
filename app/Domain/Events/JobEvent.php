@@ -2,10 +2,12 @@
 
 namespace App\Domain\Events;
 
+use App\Contracts\Log\Loggable;
+
 /**
  * An abstraction for all queue events.
  */
-abstract class JobEvent
+abstract class JobEvent implements Loggable
 {
     /**
      * @var mixed

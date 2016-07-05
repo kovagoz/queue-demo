@@ -2,13 +2,12 @@
 
 namespace App\Domain\Events;
 
-use App\Contracts\Log\Loggable;
 use Psr\Log\LogLevel;
 
 /**
  * Event fired when a new job is put into queue.
  */
-class JobCreated extends JobEvent implements Loggable
+class JobCreated extends JobEvent
 {
     /**
      * Get log level.

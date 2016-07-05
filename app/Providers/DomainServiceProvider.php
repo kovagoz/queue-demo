@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Domain\MessageProcessor;
 use App\Domain\MessageGenerator;
+use App\Domain\Handlers\DefaultHandler;
 use App\Domain\Handlers\ErrorHandler;
 use App\Domain\EventLogger;
 
@@ -20,11 +21,15 @@ class DomainServiceProvider extends ServiceProvider
     public function register()
     {
         $this->container->bind(ErrorHandler::class, function ($c) {
-            return new ErrorHandler($c->make('mail'), $c->make('config'));
+            return new ErrorHandler(
+                $c->make('mail'),
+                $c->make('config'),
+                $c->make('events')
+            );
         });
 
         $this->container->bind(MessageProcessor::class, function ($c) {
-            $handler = new DefaultHandler;
+            $handler = new DefaultHandler($c->make('events'));
             $handler->attach($c->make(ErrorHandler::class));
 
             return new MessageProcessor($c->make('queue'), $handler);
