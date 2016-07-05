@@ -162,21 +162,6 @@
       notify: reload supervisor
 
     #------------------------------------------------------
-    #  Composer
-    #------------------------------------------------------
-
-    - name: install composer
-      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-      args:
-        creates: /usr/local/bin/composer
-
-    - name: install composer packages
-      command: /usr/local/bin/composer install
-      args:
-        chdir: /vagrant
-        creates: /vagrant/vendor
-
-    #------------------------------------------------------
     #  Mailcatcher
     #------------------------------------------------------
 
@@ -197,6 +182,31 @@
     - name: start mailcatcher
       copy: src=supervisor/mailcatcher.conf dest=/etc/supervisor/conf.d/
       notify: reread supervisor
+
+    #------------------------------------------------------
+    #  Composer
+    #------------------------------------------------------
+
+    - name: install composer
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      args:
+        creates: /usr/local/bin/composer
+
+    - name: install composer packages
+      command: /usr/local/bin/composer install
+      args:
+        chdir: /vagrant
+        creates: /vagrant/vendor
+
+    #------------------------------------------------------
+    #  Generate API doc
+    #------------------------------------------------------
+
+    - name: generate the documentation
+      command: make doc
+      args:
+        chdir: /vagrant
+        creates: /vagrant/public/doc
 
     #------------------------------------------------------
     #  Adminer (MySQL web admin)
