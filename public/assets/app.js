@@ -22,11 +22,17 @@ var vm = new Vue({
         lastId: 0
     },
     methods: {
-        createJob: function () {
+        createJob: function (e) {
+            var $button = $(e.target);
+            $button.button('loading');
+
             $.ajax({
                 url: '/message',
                 method: 'POST',
                 timeout: 2000,
+                complete: function () {
+                    $button.button('reset');
+                },
                 error: function () {
                     alert('Ooops. Something went wrong.');
                 }
