@@ -190,7 +190,7 @@ class MysqlConfiguration
     /**
      * Compose the Data Source Name.
      *
-     * @return void
+     * @return string
      */
     public function getDsn()
     {

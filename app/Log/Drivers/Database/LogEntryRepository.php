@@ -29,6 +29,12 @@ class LogEntryRepository
         return $this->db->execute($query, [intval($limit)]);
     }
 
+    /**
+     * Find entries with ID greater than the given one.
+     *
+     * @param integer $id
+     * @return \App\Contracts\Database\ResultSet
+     */
     public function findSince($id)
     {
         if (empty($id)) {

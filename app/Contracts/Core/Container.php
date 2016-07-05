@@ -41,7 +41,7 @@ interface Container
      * @return void
      */
     public function alias($abstract, $alias);
-    
+
     /**
      * Make an instance.
      *

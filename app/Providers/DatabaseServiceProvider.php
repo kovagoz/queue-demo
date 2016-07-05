@@ -8,6 +8,11 @@ use App\Database\Platforms\Mysql\MysqlConfiguration;
 
 class DatabaseServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->bind(MysqlConfiguration::class, function ($c) {

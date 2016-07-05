@@ -7,6 +7,11 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class QueueServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->singleton('queue.channel', function ($c) {

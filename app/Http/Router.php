@@ -53,6 +53,7 @@ class Router implements RouterContract
      *
      * @param RequestContract $request
      * @return mixed
+     * @throws PageNotFoundException
      */
     public function match(RequestContract $request)
     {

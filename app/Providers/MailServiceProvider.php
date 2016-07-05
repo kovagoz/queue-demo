@@ -7,6 +7,11 @@ use App\Mail\Transport\Sendmail;
 
 class MailServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->singleton(Transport::class, function () {

@@ -85,6 +85,7 @@ class EventManager implements EventManagerContract
      *
      * @param mixed $event
      * @return string
+     * @throws InvalidArgumentException
      */
     protected function getEventName($event)
     {
@@ -96,6 +97,6 @@ class EventManager implements EventManagerContract
             return $event;
         }
 
-        throw new InvalidArgumentException;
+        throw new InvalidArgumentException('Event must be string or object');
     }
 }

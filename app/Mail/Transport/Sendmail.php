@@ -17,6 +17,7 @@ class Sendmail implements Transport
      *
      * @param Message $message
      * @return void
+     * @throws MailNotDeliveredException
      */
     public function send(Message $message)
     {
@@ -36,6 +37,7 @@ class Sendmail implements Transport
      *
      * @param Message $message
      * @return string
+     * @throws NoRecipientException
      */
     protected function formatRecipients(Message $message)
     {

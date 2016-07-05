@@ -36,6 +36,7 @@ class Recipient
      *
      * @param string $email
      * @return self
+     * @throws InvalidEmailException
      */
     public function setEmail($email)
     {

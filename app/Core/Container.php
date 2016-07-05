@@ -89,6 +89,7 @@ class Container implements ContainerContract
      *
      * @param string $abstract
      * @return mixed
+     * @throws InvalidArgumentException
      */
     public function make($abstract)
     {

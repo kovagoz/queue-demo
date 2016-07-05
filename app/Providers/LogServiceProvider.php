@@ -10,6 +10,11 @@ use App\Log\Drivers\Database\LogEntryRepository;
 
 class LogServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->bind(SyslogDriver::class, function () {

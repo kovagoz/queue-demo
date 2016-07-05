@@ -7,18 +7,36 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class Message implements MessageContract
 {
+    /**
+     * @var AMQPMessage
+     */
     public $message;
 
+    /**
+     * Create new message.
+     *
+     * @param AMQPMessage $message
+     */
     public function __construct(AMQPMessage $message)
     {
         $this->message = $message;
     }
 
+    /**
+     * Get the raw message from the message object.
+     *
+     * @return mixed
+     */
     public function getPayload()
     {
         return $this->message->body;
     }
 
+    /**
+     * Reject the message.
+     *
+     * @return void
+     */
     public function reject()
     {
         $this->message->delivery_info['channel']->basic_reject(
@@ -27,6 +45,11 @@ class Message implements MessageContract
         );
     }
 
+    /**
+     * Mark the message successfully processed.
+     *
+     * @return void
+     */
     public function done()
     {
         $this->message->delivery_info['channel']->basic_ack(
@@ -34,6 +57,11 @@ class Message implements MessageContract
         );
     }
 
+    /**
+     * Get the number of times message was rejected.
+     *
+     * @return integer
+     */
     public function rejectCounter()
     {
         if (!$this->message->has('application_headers')) {

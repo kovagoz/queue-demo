@@ -12,6 +12,22 @@ use Psr\Log\LogLevel;
 class SyslogDriver implements Driver
 {
     /**
+     * Relationship between the log levels of the two system.
+     *
+     * @var array
+     */
+    protected $dictionary = [
+        LogLevel::EMERGENCY => LOG_EMERG,
+        LogLevel::ALERT     => LOG_ALERT,
+        LogLevel::CRITICAL  => LOG_CRIT,
+        LogLevel::ERROR     => LOG_ERR,
+        LogLevel::WARNING   => LOG_WARNING,
+        LogLevel::NOTICE    => LOG_NOTICE,
+        LogLevel::INFO      => LOG_INFO,
+        LogLevel::DEBUG     => LOG_DEBUG
+    ];
+
+    /**
      * Create new syslog driver instance.
      *
      * @param string $ident The string ident is added to each message.
@@ -38,36 +54,14 @@ class SyslogDriver implements Driver
      *
      * @param string $level
      * @return integer
+     * @throws InvalidLogLevelException
      */
     protected function getPriority($level)
     {
-        switch ($level) {
-            case LogLevel::EMERGENCY:
-                return LOG_EMERG;
-
-            case LogLevel::ALERT:
-                return LOG_ALERT;
-
-            case LogLevel::CRITICAL:
-                return LOG_CRIT;
-
-            case LogLevel::ERROR:
-                return LOG_ERR;
-
-            case LogLevel::WARNING:
-                return LOG_WARNING;
-
-            case LogLevel::NOTICE:
-                return LOG_NOTICE;
-
-            case LogLevel::INFO:
-                return LOG_INFO;
-
-            case LogLevel::DEBUG:
-                return LOG_DEBUG;
-
-            default:
-                throw new InvalidLogLevelException($level);
+        if (array_key_exists($level, $this->dictionary)) {
+            return $this->dictionary[$level];
         }
+
+        throw new InvalidLogLevelException($level);
     }
 }

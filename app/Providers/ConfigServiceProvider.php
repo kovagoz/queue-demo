@@ -7,6 +7,11 @@ use App\Config\Repository;
 
 class ConfigServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->singleton(Config::class, function () {

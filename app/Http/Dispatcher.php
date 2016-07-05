@@ -25,7 +25,7 @@ class Dispatcher implements DispatcherContract
      * Dispatch the request.
      *
      * @param RequestContract $request
-     * @return void
+     * @return \App\Contracts\Http\Response
      */
     public function dispatch(RequestContract $request)
     {

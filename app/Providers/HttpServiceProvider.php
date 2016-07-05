@@ -11,6 +11,11 @@ use App\Http\Dispatcher;
 
 class HttpServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->singleton(RequestContract::class, function () {

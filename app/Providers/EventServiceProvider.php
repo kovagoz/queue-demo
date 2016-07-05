@@ -7,6 +7,11 @@ use App\Event\EventManager;
 
 class EventServiceProvider extends ServiceProvider
 {
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->singleton(EventManagerContract::class, function () {

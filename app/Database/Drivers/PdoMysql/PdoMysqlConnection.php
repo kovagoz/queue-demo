@@ -130,7 +130,7 @@ class PdoMysqlConnection implements Connection
             return PDO::PARAM_INT;
         }
 
-        if (is_null($value)) {
+        if ($value === null) {
             return PDO::PARAM_NULL;
         }
 

@@ -20,7 +20,8 @@ class MessageGenerator
     /**
      * Create new message generator instance.
      *
-     * @param Queue $queue
+     * @param Queue        $queue
+     * @param EventManager $events
      */
     public function __construct(Queue $queue, EventManager $events)
     {

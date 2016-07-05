@@ -34,7 +34,7 @@ abstract class ServiceProvider
     }
 
     /**
-     * Register services.
+     * Register bindings.
      *
      * @return void
      */

@@ -8,6 +8,7 @@ abstract class Subscriber
      * Implement this method to subscribe to events.
      *
      * @param EventManager $events
+     * @return void
      */
     abstract public function subscribe(EventManager $events);
 

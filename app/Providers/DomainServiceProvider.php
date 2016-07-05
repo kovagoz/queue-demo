@@ -10,6 +10,11 @@ use App\Domain\EventLogger;
 
 class DomainServiceProvider extends ServiceProvider
 {
+    /**
+     * Do things after each provider have registered it's own bindings.
+     *
+     * @return void
+     */
     public function boot()
     {
         // Initialize the queue event logger.
@@ -18,6 +23,11 @@ class DomainServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register bindings.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->container->bind(ErrorHandler::class, function ($c) {
