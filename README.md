@@ -7,7 +7,7 @@ Szükséges szoftverek
 --------------------
 
 - VirtualBox
-- Vagrant + 512MB RAM
+- Vagrant (>= 1.8.0) + 512MB RAM
 
 A Vagrant a _8000-8004_-es portokat fogja használja _localhoston_, ezeket tedd szabaddá.
 
