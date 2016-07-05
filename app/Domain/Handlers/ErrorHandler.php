@@ -92,7 +92,7 @@ class ErrorHandler extends Handler
         $mail = new Email;
         $mail->addRecipient($this->config['MAIL_TO']);
         $mail->setSubject($this->config['MAIL_SUBJECT']);
-        $mail->setBody("Cannot process message [{$message->getPaylod()}].");
+        $mail->setBody("Cannot process message [{$message->getPayload()}].");
 
         $this->mailer->send($mail);
     }
