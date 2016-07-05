@@ -38,9 +38,9 @@ class MessageGenerator
     {
         $message = $this->createRandomMessage();
 
-        $this->queue->put($message);
+        $this->events->fire(new Events\JobCreating($message));
 
-        $this->events->fire(new Events\JobCreated($message));
+        $this->queue->put($message);
     }
 
     /**

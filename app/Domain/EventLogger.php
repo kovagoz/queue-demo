@@ -17,7 +17,7 @@ class EventLogger extends Subscriber
      */
     protected $events = [
         Events\JobComplete::class,
-        Events\JobCreated::class,
+        Events\JobCreating::class,
         Events\JobFailed::class,
         Events\JobRejected::class,
         Events\JobReserved::class,

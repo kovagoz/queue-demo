@@ -5,9 +5,9 @@ namespace App\Domain\Events;
 use Psr\Log\LogLevel;
 
 /**
- * Event fired when a new job is put into queue.
+ * Event fired before a new job is put into queue.
  */
-class JobCreated extends JobEvent
+class JobCreating extends JobEvent
 {
     /**
      * Get log level.
