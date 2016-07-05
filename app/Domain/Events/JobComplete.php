@@ -23,6 +23,6 @@ class JobComplete extends JobEvent
      */
     public function getLogMessage()
     {
-        return "[{$this->payload}] Complete";
+        return "[{$this->payload}] Completed";
     }
 }
