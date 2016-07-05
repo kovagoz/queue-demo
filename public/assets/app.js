@@ -28,7 +28,7 @@ var vm = new Vue({
                 method: 'POST',
                 timeout: 2000,
                 error: function () {
-                    alert('AJAX failed.');
+                    alert('Ooops. Something went wrong.');
                 }
             });
         },
@@ -43,16 +43,17 @@ var vm = new Vue({
                 dataType: 'json',
                 context: this,
                 success: function (data) {
+                    this.log = data.concat(this.log);
+                },
+                error: function () {
+                    console.log('Failed to refresh the log');
+                },
+                complete: function () {
                     var vue = this;
-
-                    vue.log = data.concat(this.log);
 
                     setTimeout(function () {
                         vue.fetchLog();
                     }, 1000);
-                },
-                error: function () {
-                    alert('AJAX failed.');
                 }
             });
         }
