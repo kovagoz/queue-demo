@@ -1,3 +1,8 @@
+RabbitMQ demo
+=============
+
+Ez a projekt egy egyszerű demonstráció a _RabbitMQ_ működésére.
+
 Szükséges eszközök
 ------------------
 
