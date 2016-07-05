@@ -35,7 +35,7 @@ class LogEntryRepository
             return $this->findRecent();
         }
 
-        $query = 'SELECT * FROM `log` WHERE `id` > ? ORDER BY `id`';
+        $query = 'SELECT * FROM `log` WHERE `id` > ? ORDER BY `id` DESC';
 
         return $this->db->execute($query, [intval($id)]);
     }
