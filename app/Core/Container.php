@@ -92,18 +92,62 @@ class Container implements ContainerContract
      */
     public function make($abstract)
     {
-        if (array_key_exists($abstract, $this->aliases)) {
-            $abstract = $this->aliases[$abstract];
+        if ($this->isAlias($abstract)) {
+            $abstract = $this->resolveAlias($abstract);
         }
 
-        if (!array_key_exists($abstract, $this->bindings)) {
-            throw new InvalidArgumentException;
+        if (!$this->isBound($abstract)) {
+            throw new InvalidArgumentException("Cannot resolve {$abstract}");
         }
 
-        if (is_callable($this->bindings[$abstract])) {
+        if ($this->isCallable($abstract)) {
             return call_user_func($this->bindings[$abstract], $this);
         }
 
         return $this->bindings[$abstract];
+    }
+
+    /**
+     * Check whether the resolvable entity is just an alias.
+     *
+     * @param string $abstract
+     * @return boolean
+     */
+    protected function isAlias($abstract)
+    {
+        return array_key_exists($abstract, $this->aliases);
+    }
+
+    /**
+     * Get the real abstract behind the alias.
+     *
+     * @param string $alias
+     * @return string
+     */
+    protected function resolveAlias($alias)
+    {
+        return $this->aliases[$alias];
+    }
+
+    /**
+     * Determine if abstract is bound.
+     *
+     * @param string $abstract
+     * @return boolean
+     */
+    protected function isBound($abstract)
+    {
+        return array_key_exists($abstract, $this->bindings);
+    }
+
+    /**
+     * Determine if abstract bound to a callable entity.
+     *
+     * @param string $abstract
+     * @return boolean
+     */
+    protected function isCallable($abstract)
+    {
+        return is_callable($this->bindings[$abstract]);
     }
 }
