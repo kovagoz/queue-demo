@@ -30,7 +30,7 @@ class MessageGenerator
     }
 
     /**
-     * Put a new message to the queue.
+     * Put a new message into the queue.
      *
      * @return void
      */
