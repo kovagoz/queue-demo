@@ -66,6 +66,12 @@ class Router implements RouterContract
         throw new PageNotFoundException($request);
     }
 
+    /**
+     * Strip slashes from both side of URL path.
+     *
+     * @param string $path
+     * @return string
+     */
     protected function stripSlashes($path)
     {
         return trim($path, '/');
