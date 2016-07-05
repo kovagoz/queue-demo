@@ -1,5 +1,5 @@
 {
-    "name": "kovi/queue-demo",
+    "name": "kovagoz/queue-demo",
     "description": "RabbitMQ demo",
     "keywords": ["rabbitmq", "demo"],
     "license": "WTFPL",
