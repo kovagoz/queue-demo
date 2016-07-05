@@ -49,14 +49,25 @@ Levelezés
 
 Az app által kiküldött levelek nem hagyják el a virtuális gépet, azok megtekinthetők a [http://localhost:8002/](http://localhost:8002/) címen, a _Mailcatcher_ webes felületén.
 
+API
+---
+
+Telepítésnél automatikusan generálódik egy API dokumentáció, ami a [http://localhost:8000/doc](http://localhost:8000/doc) címen érhető el.
+
+Tesztelés
+---------
+
+Unit tesztek futtatása, és coding style ellenőrzés:
+
+```
+vagrant ssh
+cd /vagrant
+make test
+```
+
 Továbbfejlesztés
 ----------------
 
 - WebSocket használata log frissítésre AJAX polling helyett.
 - A levélküldés is mehetne queue / worker alapon, hogy ne fogja le a `MessageProcessor`-t.
 - A naplózás szintén aszinkronizálható, így a `MessageGenerator` és a `MessageProcessor` nem függ az adatbázistól.
-
-API
----
-
-Telepítésnél automatikusan generálódik egy API dokumentáció, ami a [http://localhost:8000/doc](http://localhost:8000/doc) címen érhető el.
